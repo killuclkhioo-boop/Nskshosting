@@ -1,0 +1,25 @@
+name: 🚀 Deploy to InfinityFree via FTP
+
+on:
+  push:
+    branches: [ main ]   # หรือ master แล้วแต่ default branch คุณ
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📤 FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_TARGET_FOLDER }}
+          exclude: |
+            .git/**
+            .github/**
+            .gitignore
+            README.md
